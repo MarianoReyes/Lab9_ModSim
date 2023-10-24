@@ -193,10 +193,8 @@ canvas.pack()
 def simulacion():
     for _ in range(10):
         # Posiciones aleatorias para el robot y la pelota
-        pos_robot_x, pos_robot_y = random.randint(0, 200),
-        random.randint(0, 200)
-        pos_pelota_x, pos_pelota_y = random.randint(0, 200),
-        random.randint(0, 200)
+        pos_robot_x, pos_robot_y = random.randint(0, 200),random.randint(0, 200)
+        pos_pelota_x, pos_pelota_y = random.randint(0, 200),random.randint(0, 200)
 
         posicion_porteria_x, posicion_porteria_y = 380, 200
 
