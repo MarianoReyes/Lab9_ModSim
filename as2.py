@@ -7,6 +7,8 @@ import skfuzzy.control as ctrl
 import random
 import math
 from PIL import Image, ImageTk
+import time
+
 # 1. y 2. Variables crisp y lingüísticas para encontrar la pelota
 # Distancia del robot a la pelota de 0 a 100 metros
 x_dist = np.arange(0, 201, 1)
@@ -196,8 +198,9 @@ alto_lienzo = 400
 
 # Cargar imagen con Pillow y convertirla a PhotoImage de Tkinter
 imagen_original = Image.open("cancha.png")
-imagen_redimensionada = imagen_original.resize((ancho_lienzo, alto_lienzo), Image.ANTIALIAS)
+imagen_redimensionada = imagen_original.resize((ancho_lienzo, alto_lienzo))
 imagen_tk = ImageTk.PhotoImage(imagen_redimensionada)
+
 
 # Dibujar la imagen en el lienzo
 
@@ -278,47 +281,50 @@ def simulacion():
 
         # Mover el robot hacia la pelota
         # (Este es un acercamiento simple, se puede hacer más sofisticado)
+        root.update()
+        root.after(100)  # Pausa de 1 segundo entre movimientos
         # AQUI FALTA ANIMAR EL ROBOT
-        if pos_robot_x < pos_pelota_x:
-            pos_robot_x += 10
-        else:
-            pos_robot_x -= 10
+        while dist > 0:
 
-        if pos_robot_y < pos_pelota_y:
-            pos_robot_y += 10
-        else:
-            pos_robot_y -= 10
-        # Dibuja la nueva posición del robot
-        canvas.delete(robot_cuerpo)
-        canvas.delete(robot_cabeza)
-        canvas.delete(robot_ojo_izquierdo)
-        canvas.delete(robot_ojo_derecho)
+            # canvas.move(robot_cuerpo, pos_pelota_x, pos_pelota_y)
+            # canvas.move(robot_cabeza, pos_pelota_x, pos_pelota_y)
+            # canvas.move(robot_ojo_izquierdo, pos_pelota_x, pos_pelota_y)
+            # canvas.move(robot_ojo_derecho, pos_pelota_x, pos_pelota_y)
+            
+            # dist = 0
+            # Dibuja la nueva posición del robot
+            canvas.delete(robot_cuerpo)
+            canvas.delete(robot_cabeza)
+            canvas.delete(robot_ojo_izquierdo)
+            canvas.delete(robot_ojo_derecho)
 
-        # Robot - Cuerpo principal
-        robot_cuerpo = canvas.create_rectangle(pos_robot_x - 5,
-                                            pos_robot_y - 20,
-                                            pos_robot_x + 5,
-                                            pos_robot_y + 20,
+            # Robot - Cuerpo principal
+            robot_cuerpo = canvas.create_rectangle(pos_pelota_x - 5,
+                                                pos_pelota_y - 20,
+                                                pos_pelota_x + 5,
+                                                pos_pelota_y + 20,
+                                                fill='blue')
+
+            # Robot - Cabeza
+            robot_cabeza = canvas.create_oval(pos_pelota_x - 20,
+                                            pos_pelota_y - 40,
+                                            pos_pelota_x + 20,
+                                            pos_pelota_y,
                                             fill='blue')
 
-        # Robot - Cabeza
-        robot_cabeza = canvas.create_oval(pos_robot_x - 20,
-                                        pos_robot_y - 40,
-                                        pos_robot_x + 20,
-                                        pos_robot_y,
-                                        fill='blue')
-
-        # Robot - Ojos
-        robot_ojo_izquierdo = canvas.create_oval(pos_robot_x - 2,
-                                                pos_robot_y - 20,
-                                                pos_robot_x - 10,
-                                                pos_robot_y - 28,
+            # Robot - Ojos
+            robot_ojo_izquierdo = canvas.create_oval(pos_pelota_x - 2,
+                                                    pos_pelota_y - 20,
+                                                    pos_pelota_x - 10,
+                                                    pos_pelota_y - 28,
+                                                    fill='white')
+            robot_ojo_derecho = canvas.create_oval(pos_pelota_x + 2,
+                                                pos_pelota_y - 27,
+                                                pos_pelota_x + 10,
+                                                pos_pelota_y - 20,
                                                 fill='white')
-        robot_ojo_derecho = canvas.create_oval(pos_robot_x + 2,
-                                            pos_robot_y - 27,
-                                            pos_robot_x + 10,
-                                            pos_robot_y - 20,
-                                            fill='white')
+            dist = 0
+            
 
         # SIGUIENTE SIMULACION:
         root.update()
