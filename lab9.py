@@ -29,9 +29,12 @@ encontrar_pelota['media'] = fuzz.trimf(encontrar_pelota.universe, [4, 6, 8])
 encontrar_pelota['alta'] = fuzz.trimf(encontrar_pelota.universe, [7, 10, 10])
 
 # Definir reglas de búsqueda de la pelota (cláusulas de Horn)
-regla1 = ctrl.Rule(distancia_x['cerca'] & distancia_y['cerca'], encontrar_pelota['alta'])
-regla2 = ctrl.Rule(distancia_x['medio'] & distancia_y['medio'], encontrar_pelota['media'])
-regla3 = ctrl.Rule(distancia_x['lejos'] & distancia_y['lejos'], encontrar_pelota['baja'])
+regla1 = ctrl.Rule(distancia_x['cerca'] & distancia_y['cerca'],
+                   encontrar_pelota['alta'])
+regla2 = ctrl.Rule(distancia_x['medio'] & distancia_y['medio'],
+                   encontrar_pelota['media'])
+regla3 = ctrl.Rule(distancia_x['lejos'] & distancia_y['lejos'],
+                   encontrar_pelota['baja'])
 
 # Crear el sistema de control difuso
 sistema_ctrl = ctrl.ControlSystem([regla1, regla2, regla3])
